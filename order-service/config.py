@@ -1,0 +1,10 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+class Config:
+    SERVICE_NAME = "order-service"
+    HOST = os.getenv("HOST","0.0.0.0")
+    PORT = int(os.getenv("PORT",5003))
+    DEBUG = os.getenv("DEBUG","True").lower() == "true"
