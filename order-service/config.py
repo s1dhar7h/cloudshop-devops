@@ -8,6 +8,13 @@ class Config:
     HOST = os.getenv("HOST","0.0.0.0")
     PORT = int(os.getenv("PORT",5003))
     DEBUG = os.getenv("DEBUG","True").lower() == "true"
+
+    DB_HOST = os.getenv("DB_HOST", "postgres")
+    DB_PORT = int(os.getenv("DB_PORT", 5432))
+    DB_NAME = os.getenv("DB_NAME", "cloudshop")
+    DB_USER = os.getenv("DB_USER", "admin")
+    DB_PASSWORD = os.getenv("DB_PASSWORD", "admin123")
+
     USER_SERVICE_URL = os.getenv(
         "USER_SERVICE_URL",
         "http://user-service:5001"

@@ -4,7 +4,7 @@ __pycache__/
 *.pyo
 
 # Virtual Environments
-venv/
+**/venv/
 .venv/
 
 # Environment files
@@ -22,3 +22,9 @@ Thumbs.db
 
 # Python cache
 .pytest_cache/
+
+# PostgreSQL
+postgres_data/
+
+# Jenkins
+jenkins/jenkins_home/
