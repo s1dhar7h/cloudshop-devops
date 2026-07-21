@@ -1,20 +1,20 @@
 pipeline{
     agent any
     stages{
-        stage('Hello World'){
+        stage('Checkout Source'){
             steps{
-                    echo 'Hello World'
+                    echo 'Source code checked out from GitHub'
             }
         }
-        stage('Workspace'){
+        stage('Show Workspace'){
             steps{
                 sh 'pwd'
                 sh 'ls -la'
             }
         }
-        stage('Docker Check'){
+        stage('Build Docker Images'){
             steps{
-                sh 'docker version'
+                sh 'docker compose build'
             }
         }
     }
