@@ -6,15 +6,19 @@ pipeline{
                     echo 'Source code checked out from GitHub'
             }
         }
-        stage('Show Workspace'){
-            steps{
-                sh 'pwd'
-                sh 'ls -la'
-            }
-        }
         stage('Build Docker Images'){
             steps{
                 sh 'docker compose build'
+            }
+        }
+        stage('Stop Existing Containers') {
+            steps {
+                sh 'docker compose down'
+            }
+        }
+        stage('Start Containers') {
+            steps {
+                sh 'docker compose up -d'
             }
         }
     }
