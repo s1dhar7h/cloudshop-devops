@@ -1,5 +1,6 @@
 services:
   user-service:
+    image: s1dhar7h/cloudshop-user-service:latest
     build:
       context: ./user-service
     container_name: user-service
@@ -29,6 +30,7 @@ services:
       DB_PASSWORD: admin123
 
   product-service:
+    image: s1dhar7h/cloudshop-product-service:latest
     build:
       context: ./product-service
     container_name: product-service
@@ -58,6 +60,7 @@ services:
       DB_PASSWORD: admin123
 
   order-service:
+    image: s1dhar7h/cloudshop-order-service:latest
     build:
       context: ./order-service
     container_name: order-service
@@ -89,6 +92,7 @@ services:
       PRODUCT_SERVICE_URL: http://product-service:5002
 
   notification-service:
+    image: s1dhar7h/cloudshop-notification-service:latest
     build:
       context: ./notification-service
     container_name: notification-service

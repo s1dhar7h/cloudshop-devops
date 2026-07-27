@@ -11,16 +11,35 @@ pipeline{
                 sh 'docker compose build'
             }
         }
-        stage('Stop Existing Containers') {
-            steps {
-                sh 'docker compose down'
+        stage('Login to Docker Hub'){
+            steps{
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds'
+                    usernameVariable: 'DOCKER_USER'
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh '''
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                    '''
+                    }
             }
         }
-        stage('Start Containers') {
+        stage('Push Images') {
             steps {
-                sh 'docker compose up -d'
+                sh '''
+            docker push s1dhar7h/cloudshop-user-service:latest
+            docker push s1dhar7h/cloudshop-product-service:latest
+            docker push s1dhar7h/cloudshop-order-service:latest
+            docker push s1dhar7h/cloudshop-notification-service:latest
+                '''
             }
         }
+        stage('Logout Docker Hub') {
+            steps {
+                sh 'docker logout'
+            }
+        }
+
     }
     post{
         always{
