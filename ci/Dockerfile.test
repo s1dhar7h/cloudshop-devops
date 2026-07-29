@@ -2,11 +2,11 @@ FROM python:3.14-slim
 
 WORKDIR /app
 
-# Copy only requirements first (better Docker cache)
-COPY user-service/requirements.txt user-service/
-COPY product-service/requirements.txt product-service/
-COPY order-service/requirements.txt order-service/
-COPY notification-service/requirements.txt notification-service/
+# Copy only the services (better Docker cache)
+COPY user-service/ user-service/
+COPY product-service/ product-service/
+COPY order-service/ order-service/
+COPY notification-service/ notification-service/
 
 # Install dependencies
 RUN pip install --no-cache-dir \
@@ -14,8 +14,5 @@ RUN pip install --no-cache-dir \
     -r product-service/requirements.txt \
     -r order-service/requirements.txt \
     -r notification-service/requirements.txt
-
-# Copy the complete source code
-COPY . .
 
 CMD ["bash"]

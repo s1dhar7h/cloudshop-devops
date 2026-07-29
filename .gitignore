@@ -1,30 +1,33 @@
+# Git
+.git/
+
 # Python
-__pycache__/
-*.py[cod]
-*.pyo
+**/__pycache__/
+**/*.py[cod]
+**/*.pyo
 
 # Virtual Environments
 **/venv/
-.venv/
+**/.venv/
 
 # Environment files
-.env
+**/.env
 
 # VS Code
 .vscode/
 
 # Logs
-*.log
+**/*.log
 
 # OS files
 .DS_Store
 Thumbs.db
 
-# Python cache
-.pytest_cache/
+# Pytest
+**/.pytest_cache/
 
 # PostgreSQL
 postgres_data/
 
-# Jenkins
+# Jenkins data
 jenkins/jenkins_home/
