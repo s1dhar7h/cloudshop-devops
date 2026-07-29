@@ -6,6 +6,20 @@ pipeline{
                     echo 'Source code checked out from GitHub'
             }
         }
+    
+    stage('Run Tests') {
+        steps {
+            sh '''
+                docker build -t cloudshop-test -f ci/Dockerfile.test .
+
+                docker run --rm cloudshop-test pytest user-service/tests
+                ocker run --rm cloudshop-test pytest product-service/tests
+                docker run --rm cloudshop-test pytest order-service/tests
+                docker run --rm cloudshop-test pytest notification-service/tests
+            '''
+        }
+    }
+
         stage('Build Docker Images'){
             steps{
                 sh 'docker compose build'
