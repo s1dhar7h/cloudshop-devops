@@ -12,10 +12,10 @@ pipeline{
             sh '''
                 docker build -t cloudshop-test -f ci/Dockerfile.test .
 
-                docker run --rm cloudshop-test pytest user-service/tests
-                ocker run --rm cloudshop-test pytest product-service/tests
-                docker run --rm cloudshop-test pytest order-service/tests
-                docker run --rm cloudshop-test pytest notification-service/tests
+                docker run --rm cloudshop-test -m pytest user-service/tests
+                docker run --rm cloudshop-test -m pytest product-service/tests
+                docker run --rm cloudshop-test -m pytest order-service/tests
+                docker run --rm cloudshop-test -m pytest notification-service/tests
             '''
         }
     }
