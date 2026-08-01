@@ -21,5 +21,5 @@ class Config:
     )
     PRODUCT_SERVICE_URL = os.getenv(
         "PRODUCT_SERVICE_URL",
-        "http://product-service:5001"
+        "http://product-service:5002"
     )
