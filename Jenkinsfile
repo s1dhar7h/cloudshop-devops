@@ -36,7 +36,11 @@ pipeline{
         stage('Build Docker Images'){
             steps{
                 sh '''
-                    docker compose build
+                    docker build -t s1dhar7h/cloudshop-user-service:latest ./user-service
+                    docker build -t s1dhar7h/cloudshop-product-service:latest ./product-service
+                    docker build -t s1dhar7h/cloudshop-order-service:latest ./order-service
+                    docker build -t s1dhar7h/cloudshop-notification-service:latest ./notification-service
+
                     docker tag s1dhar7h/cloudshop-user-service:latest s1dhar7h/cloudshop-user-service:${IMAGE_TAG}
                     docker tag s1dhar7h/cloudshop-product-service:latest s1dhar7h/cloudshop-product-service:${IMAGE_TAG}
                     docker tag s1dhar7h/cloudshop-order-service:latest s1dhar7h/cloudshop-order-service:${IMAGE_TAG}
