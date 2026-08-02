@@ -85,28 +85,43 @@ pipeline{
             steps{
                 sh '''
                     kubectl set image deployment/user-service \
-                        user-service=s1dhar7h/cloudshop-user-service:${IMAGE_TAG} -n cloudshop
+                    user-service=s1dhar7h/cloudshop-user-service:${IMAGE_TAG} -n cloudshop
 
                     kubectl set image deployment/product-service \
-                        product-service=s1dhar7h/cloudshop-product-service:${IMAGE_TAG} -n cloudshop
-        
+                    product-service=s1dhar7h/cloudshop-product-service:${IMAGE_TAG} -n cloudshop
+
                     kubectl set image deployment/order-service \
-                        order-service=s1dhar7h/cloudshop-order-service:${IMAGE_TAG} -n cloudshop
+                    order-service=s1dhar7h/cloudshop-order-service:${IMAGE_TAG} -n cloudshop
         
                     kubectl set image deployment/notification-service \
-                        notification-service=s1dhar7h/cloudshop-notification-service:${IMAGE_TAG} -n cloudshop
+                    notification-service=s1dhar7h/cloudshop-notification-service:${IMAGE_TAG} -n cloudshop
                 '''
             }
         }
 
-        stage('Wait for rollout'){
-            steps{
-                sh '''
-                    kubectl rollout status deployment/user-service -n cloudshop
-                    kubectl rollout status deployment/product-service -n cloudshop
-                    kubectl rollout status deployment/order-service -n cloudshop
-                    kubectl rollout status deployment/notification-service -n cloudshop
-                '''
+        stage('Wait for rollout') {
+            steps {
+                script {
+                    try {
+                        sh '''
+                            kubectl rollout status deployment/user-service -n cloudshop
+                            kubectl rollout status deployment/product-service -n cloudshop
+                            kubectl rollout status deployment/order-service -n cloudshop
+                            kubectl rollout status deployment/notification-service -n cloudshop
+                        '''
+                    } catch (Exception e) {
+                        echo "Rollout failed. Rolling back..."
+        
+                        sh '''
+                            kubectl rollout undo deployment/user-service -n cloudshop
+                            kubectl rollout undo deployment/product-service -n cloudshop
+                            kubectl rollout undo deployment/order-service -n cloudshop
+                            kubectl rollout undo deployment/notification-service -n cloudshop
+                        '''
+        
+                        throw e
+                    }
+                }
             }
         }
 
