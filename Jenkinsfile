@@ -1,5 +1,10 @@
 pipeline{
     agent any
+
+    options {
+        timestamps()
+    }
+
     environment{
         IMAGE_TAG = "${BUILD_NUMBER}"
     }
@@ -75,19 +80,47 @@ pipeline{
                 '''
             }
         }
-        stage('Logout Docker Hub') {
-            steps {
-                sh 'docker logout'
+
+        stage('Deploy to Kubernetes'){
+            steps{
+                sh '''
+                    kubectl rollout restart deployment/user-service -n cloudshop
+                    kubectl rollout restart deployment/product-service -n cloudshop
+                    kubectl rollout restart deployment/order-service -n cloudshop
+                    kubectl rollout restart deployment/notification-service -n cloudshop
+                '''
             }
         }
 
+        stage('Wait for rollout'){
+            steps{
+                sh '''
+                    kubectl rollout status deployment/user-service -n cloudshop
+                    kubectl rollout status deployment/product-service -n cloudshop
+                    kubectl rollout status deployment/order-service -n cloudshop
+                    kubectl rollout status deployment/notification-service -n cloudshop
+                '''
+            }
+        }
+
+        stage('Verify Deployment'){
+            steps{
+                sh '''
+                    kubectl get pods -n cloudshop
+                    kubectl get svc -n cloudshop
+                    kubectl get ingress -n cloudshop
+                '''
+            }
+        }        
     }
+
     post{
         always{
+            sh 'docker logout || true'
             echo 'Pipeline Finished'
         }
         success{
-            echo 'Build Successfull'
+            echo 'Build Successful'
         }
         failure{
             echo 'Build Failed'
