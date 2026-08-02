@@ -84,10 +84,17 @@ pipeline{
         stage('Deploy to Kubernetes'){
             steps{
                 sh '''
-                    kubectl rollout restart deployment/user-service -n cloudshop
-                    kubectl rollout restart deployment/product-service -n cloudshop
-                    kubectl rollout restart deployment/order-service -n cloudshop
-                    kubectl rollout restart deployment/notification-service -n cloudshop
+                    kubectl set image deployment/user-service \
+                        user-service=s1dhar7h/cloudshop-user-service:${IMAGE_TAG} -n cloudshop
+
+                    kubectl set image deployment/product-service \
+                        product-service=s1dhar7h/cloudshop-product-service:${IMAGE_TAG} -n cloudshop
+        
+                    kubectl set image deployment/order-service \
+                        order-service=s1dhar7h/cloudshop-order-service:${IMAGE_TAG} -n cloudshop
+        
+                    kubectl set image deployment/notification-service \
+                        notification-service=s1dhar7h/cloudshop-notification-service:${IMAGE_TAG} -n cloudshop
                 '''
             }
         }
