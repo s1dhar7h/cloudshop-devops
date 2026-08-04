@@ -1,0 +1,39 @@
+namespace: cloudshop
+
+imagePullPolicy: Always
+
+postgres:
+  image:
+    repository: postgres
+    tag: "17"
+  storage: 1Gi
+
+user:
+  replicas: 2
+  image:
+    repository: s1dhar7h/cloudshop-user-service
+    tag: latest
+
+product:
+  replicas: 2
+  image:
+    repository: s1dhar7h/cloudshop-product-service
+    tag: latest
+
+order:
+  replicas: 2
+  image:
+    repository: s1dhar7h/cloudshop-order-service
+    tag: latest
+
+notification:
+  replicas: 2
+  image:
+    repository: s1dhar7h/cloudshop-notification-service
+    tag: latest
+
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: true
